@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container wide">
+    <h2>Prediction History</h2>
+    <p class="subtitle">Your past heart disease predictions</p>
+
+    {% if rows %}
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Age</th>
+                <th>Binary Result</th>
+                <th>Severity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in rows %}
+            <tr>
+                <td>{{ row[4] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>
+                    <span class="pill {% if row[2] == 'Disease likely' %}high{% else %}low{% endif %}">
+                        {{ row[2] }}
+                    </span>
+                </td>
+                <td>
+                    {% if row[3] != 'N/A' %}
+                        <span class="pill
+                        {% if row[3] == 'High Risk' %}high
+                        {% elif row[3] == 'Moderate' %}medium
+                        {% else %}low{% endif %}">
+                            {{ row[3] }}
+                        </span>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('view_prediction', pid=row[0]) }}"
+                       style="color: #0f4c75; text-decoration: underline;">
+                        View Details
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="subtitle" style="margin-top:30px;">No predictions yet. Run your first prediction!</p>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ url_for('predict') }}" class="card-btn" style="display:inline-block; width:260px;">
+            🧪 New Prediction
+        </a>
+    </div>
+</div>
+{% endblock %}

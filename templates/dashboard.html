@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Dashboard</h2>
+    <p class="subtitle">Welcome, {{ name }}</p>
+
+    <div class="card-grid">
+        <a href="{{ url_for('predict') }}" class="card-btn">🧪 Run Prediction</a>
+        <a href="{{ url_for('history') }}" class="card-btn">📜 View History</a>
+    </div>
+
+    <p class="subtitle" style="margin-top:20px;">
+        This system assists in early detection of heart disease using machine learning.
+    </p>
+</div>
+{% endblock %}

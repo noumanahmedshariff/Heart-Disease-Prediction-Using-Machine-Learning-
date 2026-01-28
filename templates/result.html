@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container wide">
+    <h2>Prediction Result</h2>
+    <p class="subtitle">Heart Disease Prediction using Machine Learning</p>
+
+    <div class="result-grid">
+
+        <!-- ================= BINARY RESULT ================= -->
+        <div class="card">
+            <h3>Binary Risk Assessment</h3>
+
+            <p>
+                Result:
+                <span class="pill {% if binary_result == 'Disease likely' %}high{% else %}low{% endif %}">
+                    {{ binary_result }}
+                </span>
+            </p>
+
+            <p>No Disease: {{ no_disease_prob }}%</p>
+            <div class="progress">
+                <div class="progress-bar green"
+                     style="width: {{ no_disease_prob if no_disease_prob <= 100 else 100 }}%;"></div>
+            </div>
+
+            <p>Disease: {{ disease_prob }}%</p>
+            <div class="progress">
+                <div class="progress-bar red"
+                     style="width: {{ disease_prob if disease_prob <= 100 else 100 }}%;"></div>
+            </div>
+
+            {% if binary_result == "No disease" %}
+                <p class="subtitle" style="margin-top:15px;">
+                    Based on the input parameters, the model indicates a low
+                    likelihood of heart disease.
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- ================= SEVERITY RESULT ================= -->
+        {% if binary_result == "Disease likely" and severity_probs %}
+        <div class="card">
+            <h3>Severity Classification</h3>
+
+            <p>
+                Severity Level:
+                <span class="pill
+                {% if severity_result == 'High Risk' %}high
+                {% elif severity_result == 'Moderate' %}medium
+                {% else %}low{% endif %}">
+                    {{ severity_result }}
+                </span>
+            </p>
+
+            <p>Mild: {{ severity_probs.mild }}%</p>
+            <div class="progress">
+                <div class="progress-bar yellow"
+                     style="width: {{ severity_probs.mild if severity_probs.mild <= 100 else 100 }}%;"></div>
+            </div>
+
+            <p>Moderate: {{ severity_probs.moderate }}%</p>
+            <div class="progress">
+                <div class="progress-bar orange"
+                     style="width: {{ severity_probs.moderate if severity_probs.moderate <= 100 else 100 }}%;"></div>
+            </div>
+
+            <p>High Risk: {{ severity_probs.high }}%</p>
+            <div class="progress">
+                <div class="progress-bar red"
+                     style="width: {{ severity_probs.high if severity_probs.high <= 100 else 100 }}%;"></div>
+            </div>
+
+            <p class="subtitle" style="margin-top:15px;">
+                The severity level represents the predicted extent of heart disease
+                based on learned clinical patterns.
+            </p>
+
+            <p class="subtitle" style="margin-top:12px; font-size:13px;">
+                <em>
+                    Percentages indicate confidence distribution across severity
+                    classes, while the highlighted label shows the final prediction.
+                </em>
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- ================= ACTION ================= -->
+    <div style="text-align:center; margin-top:30px;">
+        <a href="{{ url_for('predict') }}" class="card-btn"
+           style="display:inline-block; width:260px;">
+            🔄 Run Another Prediction
+        </a>
+    </div>
+</div>
+
+{% endblock %}

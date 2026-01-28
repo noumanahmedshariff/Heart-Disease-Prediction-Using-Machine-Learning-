@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title if title else "Heart Disease Prediction" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="nav-title">🫀 Heart Disease Prediction</div>
+    <div class="nav-links">
+        {% if session.get("user_id") %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('predict') }}">Predict</a>
+            <a href="{{ url_for('history') }}">History</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- PAGE CONTENT -->
+{% block content %}{% endblock %}
+
+<!-- FOOTER -->
+<footer>
+    <p>
+        Heart Disease Prediction using Machine Learning<br>
+        By NOUMAN AHMED SHARIFF | 4NI24MC073
+        MCA
+    </p>
+</footer>
+
+</body>
+</html>
